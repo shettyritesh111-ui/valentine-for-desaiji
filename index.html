@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Desaiji ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+/* Screens */
+.screen {
+  position: absolute;
+  width: 90%;
+  max-width: 600px;
+  transition: 0.6s ease;
+}
+
+.hidden { opacity: 0; pointer-events: none; transform: scale(0.95); }
+
+/* Loading */
+.progress-container {
+  width: 100%;
+  height: 15px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: white;
+  transition: width 0.3s ease;
+}
+
+.loading-text { min-height: 30px; }
+
+/* Typography */
+h1 { font-size: 2.2rem; margin-bottom: 20px; }
+p { font-size: 1.05rem; margin-bottom: 25px; line-height: 1.6; }
+
+button {
+  padding: 14px 35px;
+  border-radius: 40px;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 10px;
+  transition: 0.3s ease;
+}
+
+.primary {
+  background: white;
+  color: #ff4d88;
+  font-weight: 600;
+}
+
+.primary:hover { transform: scale(1.1); }
+
+.secondary {
+  background: #333;
+  color: white;
+  position: absolute;
+}
+
+img {
+  width: 260px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(720deg); }
+}
+
+/* Heart pulse background */
+.heart-bg {
+  position: fixed;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  z-index: -1;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.8); opacity: 0.6; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.8); opacity: 0.6; }
+}
+
+.screenshot-text {
+  font-size: 1rem;
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3a8f08c9e2.mp3?filename=romantic-background-112191.mp3" type="audio/mpeg">
+</audio>
+
+<!-- LOADING -->
+<div id="loading" class="screen">
+  <h1>Analyzing Love Compatibility...</h1>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <div class="loading-text" id="loadingText">
+    Calculating compatibility with Desaiji...
+  </div>
+</div>
+
+<!-- INTRO -->
+<div id="intro" class="screen hidden">
+  <h1>Desaiji ❤️</h1>
+  <p>
+    The universe has spoken.
+    The birth charts have aligned.
+    The love gods have confirmed.
+    <br><br>
+    Compatibility Result: <strong>100.0001%</strong>
+  </p>
+  <button class="primary" onclick="startQuestion()">Continue</button>
+</div>
+
+<!-- QUESTION -->
+<div id="question" class="screen hidden">
+  <h1 id="questionText">Desaiji… Will You Be My Valentine? 🥺</h1>
+  <img id="gif" src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif">
+  <br>
+  <button id="yesBtn" class="primary">❤️ Yes</button>
+  <button id="noBtn" class="secondary">No</button>
+  <div id="screenshotText" class="screenshot-text">
+    Screenshot this moment ❤️
+  </div>
+</div>
+
+<script>
+const loading = document.getElementById("loading");
+const intro = document.getElementById("intro");
+const question = document.getElementById("question");
+const progressBar = document.getElementById("progressBar");
+const loadingText = document.getElementById("loadingText");
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const gif = document.getElementById("gif");
+const music = document.getElementById("bgMusic");
+const screenshotText = document.getElementById("screenshotText");
+
+let progress = 0;
+const loadingSteps = [
+  "Calculating compatibility with Desaiji...",
+  "Reading birth charts...",
+  "Consulting the love gods...",
+  "Aligning the planets...",
+  "Finalizing destiny..."
+];
+
+let stepIndex = 0;
+
+const interval = setInterval(() => {
+  progress += Math.random() * 15;
+  if (progress >= 100) {
+    progress = 100;
+    clearInterval(interval);
+    setTimeout(() => {
+      loading.classList.add("hidden");
+      intro.classList.remove("hidden");
+      music.play().catch(() => {});
+    }, 800);
+  }
+
+  progressBar.style.width = progress + "%";
+
+  if (progress > (stepIndex + 1) * 20 && stepIndex < loadingSteps.length - 1) {
+    stepIndex++;
+    loadingText.textContent = loadingSteps[stepIndex];
+  }
+}, 400);
+
+function startQuestion() {
+  intro.classList.add("hidden");
+  question.classList.remove("hidden");
+}
+
+let noScale = 1;
+let yesScale = 1;
+
+function moveNoButton() {
+  const maxX = window.innerWidth - noBtn.offsetWidth;
+  const maxY = window.innerHeight - noBtn.offsetHeight;
+  noBtn.style.left = Math.random() * maxX + "px";
+  noBtn.style.top = Math.random() * maxY + "px";
+  noScale -= 0.1;
+  if (noScale > 0.3) noBtn.style.transform = `scale(${noScale})`;
+  yesScale += 0.05;
+  yesBtn.style.transform = `scale(${yesScale})`;
+}
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
+
+yesBtn.addEventListener("click", () => {
+  document.getElementById("questionText").textContent =
+    "SHE SAID YES!!! ❤️😭";
+  gif.src =
+    "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif";
+  noBtn.style.display = "none";
+  yesBtn.style.display = "none";
+
+  const heart = document.createElement("div");
+  heart.classList.add("heart-bg");
+  document.body.appendChild(heart);
+
+  screenshotText.style.opacity = "1";
+
+  launchConfetti();
+});
+
+function launchConfetti() {
+  for (let i = 0; i < 120; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random() * window.innerWidth + "px";
+    confetti.style.background =
+      `hsl(${Math.random() * 360}, 100%, 60%)`;
+    confetti.style.animationDuration =
+      (Math.random() * 3 + 2) + "s";
+    document.body.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 5000);
+  }
+}
+</script>
+
+</body>
+</html>
